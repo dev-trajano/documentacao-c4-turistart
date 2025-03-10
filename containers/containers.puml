@@ -1,0 +1,46 @@
+@startuml
+!define C4_CONTAINER
+!include <C4/C4_Container.puml>
+
+System_Boundary(inovaturpb_api, "inovaturpb-api") {
+    Container(app, "Aplicação Spring Boot", "Java, Spring Boot", "Esta é a aplicação responsável por gerenciar atrativos turísticos, usuários e autenticação da plataforma.")
+    ContainerDb(database, "Banco de Dados Relacional", "MySQL/PostgreSQL", "Armazena dados de usuários, atrativos turísticos e outras entidades da plataforma.")
+    Container_Ext(externalSystem, "Sistema Externo Cadastur", "API Externa", "Sistema que fornece informações sobre atividades turísticas e prestadores de serviço.")
+
+    ' Interação entre containers
+    Rel(app, database, "Consulta e armazena dados dos usuários, atrativos turísticos, segmentações turísticas, etc.")
+    Rel(app, externalSystem, "Consulta dados de atividades turísticas, prestadores e segmentações turísticas.")
+}
+
+' Contêineres de Interação
+Container(controller, "UsuarioController", "Controlador REST", "Expõe endpoints para gerenciamento de usuários (criação, edição, exclusão, autenticação e listagem).")
+Container(controller2, "AtividadeTuristicaController", "Controlador REST", "Expõe endpoints para gerenciar atividades turísticas.")
+Container(controller3, "SegmentacaoTuristicaController", "Controlador REST", "Expõe endpoints para gerenciar segmentações turísticas.")
+Container(controller4, "TipoAtrativoTuristicoController", "Controlador REST", "Expõe endpoints para gerenciar tipos de atrativos turísticos.")
+Container(controller5, "ImportacaoController", "Controlador REST", "Expõe endpoints para importar dados de atrativos turísticos via planilha.")
+
+' Contêiner de Serviço
+Container(service, "Servico de Usuarios", "Serviço Java", "Lida com a lógica de negócios para os usuários, como criação, edição, exclusão e autenticação.")
+Container(service2, "Servico de Atrativos Turísticos", "Serviço Java", "Gerencia atrativos turísticos, incluindo criação, listagem e edição.")
+Container(service3, "Servico de Segmentacoes Turísticas", "Serviço Java", "Gerencia segmentações turísticas.")
+Container(service4, "Servico de Autenticacao", "Serviço Java", "Gerencia a autenticação de usuários e geração de tokens JWT.")
+
+' Contêiner de Repositório
+Container(repo, "Repositorio de Usuarios", "JPA", "Acesso e manipulação de dados dos usuários.")
+Container(repo2, "Repositorio de Atrativos Turisticos", "JPA", "Acesso e manipulação de dados de atrativos turísticos.")
+Container(repo3, "Repositorio de Segmentacao Turistica", "JPA", "Acesso e manipulação de dados de segmentações turísticas.")
+
+' Relacionamentos entre Containers
+Rel(controller, service, "Chama", "Interage com o serviço de usuários")
+Rel(controller2, service2, "Chama", "Interage com o serviço de atrativos turísticos")
+Rel(controller3, service3, "Chama", "Interage com o serviço de segmentações turísticas")
+Rel(controller4, service2, "Chama", "Interage com o serviço de atrativos turísticos")
+Rel(controller5, service2, "Chama", "Interage com o serviço de atrativos turísticos")
+
+Rel(service, repo, "Usa", "Acessa dados dos usuários.")
+Rel(service2, repo2, "Usa", "Acessa dados dos atrativos turísticos.")
+Rel(service3, repo3, "Usa", "Acessa dados das segmentações turísticas.")
+
+Rel(externalSystem, service2, "Consulta", "Fornece dados de atividades turísticas e prestadores de serviço.")
+
+@enduml

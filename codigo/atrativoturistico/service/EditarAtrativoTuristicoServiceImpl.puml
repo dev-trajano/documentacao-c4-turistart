@@ -1,0 +1,41 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço principal
+Component(service, "EditarAtrativoTuristicoServiceImpl", "Serviço de Edição de Atrativos Turísticos", "Gerencia a edição de atrativos turísticos no sistema")
+
+' Repositórios e Componentes Auxiliares
+Component(repository, "AtrativoTuristicoRepository", "Repositório de Atrativos Turísticos", "Interface para operações no banco de dados de atrativos turísticos")
+Component(municipioRepo, "MunicipioRepository", "Repositório de Municípios", "Interface para operações no banco de dados de municípios")
+Component(dtoIn, "EditarAtrativoTuristicoDTO", "DTO de Entrada", "Contém os dados para edição de um atrativo turístico")
+Component(entity, "AtrativoTuristico", "Entidade", "Representa o modelo de domínio de atrativo turístico")
+Component(dtoOut, "AtrativoTuristicoDTO", "DTO de Saída", "Representa o atrativo turístico atualizado")
+
+' Manipulação de Arquivos
+Component(fileHandler, "ArquivoInfo", "Manipulador de Arquivos", "Trata informações e validação de arquivos")
+Component(fileEntity, "Arquivo", "Entidade de Arquivo", "Modelo representando as imagens associadas ao atrativo")
+
+' Cache
+Component(cache, "CacheService", "Gerenciador de Cache", "Invalida entradas relacionadas a atrativos turísticos e municípios")
+
+' Método principal
+Component(method, "editarAtrativoTuristico", "Método", "Realiza a edição de um atrativo turístico existente com base nos dados fornecidos")
+
+' Fluxos Alternativos e Erros
+Component(errorFlow, "Fluxo de Erro", "Fluxo", "Lida com casos de erro, como atrativo não encontrado")
+
+' Relacionamentos
+Rel(service, method, "Define", "Gerencia lógica de edição de atrativos")
+Rel(method, dtoIn, "Recebe", "Dados de entrada para edição")
+Rel(method, repository, "Usa", "Verifica existência e atualiza o atrativo turístico")
+Rel(method, municipioRepo, "Usa", "Verifica e cria municípios, se necessário")
+Rel(method, fileHandler, "Usa", "Trata informações de arquivos e imagens")
+Rel(fileHandler, fileEntity, "Define", "Cria entidades de arquivo para o atrativo")
+Rel(method, cache, "Evita", "Invalida caches relacionados")
+Rel(method, dtoOut, "Retorna", "Atrativo turístico atualizado")
+Rel(method, errorFlow, "Chama", "Fluxo alternativo em caso de erro")
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+Component(service, "AwsS3FileUploadServiceImpl", "Serviço de Upload de Arquivos para AWS S3", "Gerencia operações no AWS S3, incluindo geração de URLs pre-assinadas, uploads e remoções de arquivos.")
+Component(config, "AwsS3Properties", "Configurações AWS S3", "Armazena as configurações do bucket e tempo de expiração para URLs pre-assinadas.")
+Component(s3client, "AmazonS3", "Cliente AWS S3", "Cliente oficial da AWS para interagir com o serviço S3")
+
+Rel(service, config, "Usa", "Obtém configurações como o bucket e expiração")
+Rel(service, s3client, "Usa", "Realiza operações de upload, download, remoção e geração de URLs pre-assinadas no S3")
+
+' Métodos principais
+Component(method1, "criarUrlPreAssinadaDeUpload", "Método", "Gera URL pre-assinada para uploads")
+Rel(service, method1, "Define")
+
+Component(method2, "criarUrlPreAssinadaDeDownload", "Método", "Gera URL pre-assinada para downloads")
+Rel(service, method2, "Define")
+
+Component(method3, "fazerUpload", "Método", "Realiza o upload de arquivos para o S3")
+Rel(service, method3, "Define")
+Rel(method3, s3client, "Usa", "Executa upload para o bucket S3")
+
+Component(method4, "removeObject", "Método", "Remove um arquivo do bucket S3")
+Rel(service, method4, "Define")
+Rel(method4, s3client, "Usa", "Executa remoção do objeto no bucket S3")
+
+@enduml

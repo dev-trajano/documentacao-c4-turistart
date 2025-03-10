@@ -1,0 +1,24 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço principal
+Component(service, "ListarPermissoesServiceImpl", "Serviço", "Lógica de listagem de permissões")
+
+' Repositório
+Component(repo, "PermissaoRepository", "Repositório", "Acesso ao banco de dados para permissões")
+
+' DTO de resposta
+Component(dto, "PermissaoDTO", "DTO de Resposta", "Representa as permissões retornadas")
+
+' Cache
+Component(cache, "permissoesCache", "Cache", "Cache dos dados de permissões")
+
+' Relacionamentos
+Rel(service, repo, "Consulta", "Consulta as permissões no banco de dados")
+Rel(service, cache, "Cache", "Armazena as permissões no cache")
+Rel(service, dto, "Retorna", "Retorna as permissões mapeadas")
+
+@enduml

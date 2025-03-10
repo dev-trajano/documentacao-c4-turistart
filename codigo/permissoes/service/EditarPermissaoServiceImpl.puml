@@ -1,0 +1,26 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço principal
+Component(service, "EditarPermissaoServiceImpl", "Serviço", "Lógica de edição de permissões")
+
+' Repositório
+Component(repo, "PermissaoRepository", "Repositório", "Acesso ao banco de dados para permissões")
+
+' DTO de entrada
+Component(dtoIn, "EditarPermissaoDTO", "DTO de Entrada", "Representa os dados de entrada para editar uma permissão")
+
+' Cache
+Component(cacheUsuarios, "ListarUsuariosServiceImpl.CACHE_NAME", "Cache", "Cache dos dados de usuários")
+Component(cachePermissoes, "ListarPermissoesServiceImpl.CACHE_NAME", "Cache", "Cache dos dados de permissões")
+
+' Relacionamentos
+Rel(service, repo, "Salva", "Salva as permissões editadas no banco de dados")
+Rel(service, dtoIn, "Recebe", "Recebe os dados de permissão a serem editados")
+Rel(service, cacheUsuarios, "Evict", "Limpa o cache de usuários após editar a permissão")
+Rel(service, cachePermissoes, "Evict", "Limpa o cache de permissões após editar")
+
+@enduml

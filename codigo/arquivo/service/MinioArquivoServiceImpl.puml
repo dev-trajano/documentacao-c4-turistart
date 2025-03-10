@@ -1,0 +1,30 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço principal
+Component(service, "MinioArquivoServiceImpl", "Serviço de Gerenciamento de Arquivos (MinIO)", "Realiza operações de upload, download, remoção e geração de URLs pre-assinadas no MinIO")
+
+' Componentes auxiliares
+Component(client, "MinioClient", "Cliente MinIO", "Cliente oficial para interação com o MinIO")
+Component(config, "MinioProperties", "Configurações MinIO", "Armazena configurações como bucket, expiração e URL base")
+
+' Métodos principais
+Component(method1, "criarUrlPreAssinadaDeUpload", "Método", "Gera URL pre-assinada para upload de arquivos")
+Component(method2, "criarUrlPreAssinadaDeDownload", "Método", "Gera URL pre-assinada para download de arquivos")
+Component(method3, "fazerUpload", "Método", "Realiza o upload de arquivos para o MinIO")
+Component(method4, "removeObject", "Método", "Remove arquivos do bucket MinIO")
+Component(method5, "ajustarBaseUrlSeExistir", "Método", "Ajusta a URL base do MinIO para ser pública, se configurada")
+
+' Relacionamentos
+Rel(service, client, "Usa", "Realiza operações no MinIO usando o cliente oficial")
+Rel(service, config, "Usa", "Obtém as configurações de bucket, expiração e URL base")
+Rel(service, method1, "Define", "Gera URL pre-assinada para upload")
+Rel(service, method2, "Define", "Gera URL pre-assinada para download")
+Rel(service, method3, "Define", "Executa upload de arquivos")
+Rel(service, method4, "Define", "Remove objetos do bucket")
+Rel(method2, method5, "Chama", "Ajusta a URL base se necessário")
+
+@enduml

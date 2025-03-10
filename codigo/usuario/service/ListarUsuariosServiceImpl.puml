@@ -1,0 +1,20 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Componentes envolvidos no processo de listagem de usuários
+Component(service, "ListarUsuariosServiceImpl", "Serviço de Listagem de Usuários", "Responsável por listar os usuários com base nos filtros fornecidos")
+
+' Repositório de usuários
+Component(usuarioRepository, "UsuarioRepository", "Repositório de Usuários", "Responsável pela persistência e recuperação dos dados de usuários")
+
+' DTO de saída para usuários listados
+Component(usuarioDTO, "UsuarioDTO", "DTO de Resposta", "Representa os dados de um usuário na resposta")
+
+' Relacionamentos
+Rel(service, usuarioRepository, "Consulta", "Recupera a lista de usuários com filtros e paginação")
+Rel(service, usuarioDTO, "Retorna", "Retorna os dados dos usuários listados como resposta")
+
+@enduml

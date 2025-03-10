@@ -1,0 +1,40 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador de Usuário
+Component(controller, "UsuarioController", "Controlador REST", "Expõe endpoints para gerenciamento de usuários (criação, edição, exclusão, autenticação e listagem)")
+
+' Serviços de Usuário
+Component(listarService, "ListarUsuariosService", "Serviço de Listagem de Usuários", "Obtém a lista de usuários com base nos filtros e na paginação")
+Component(criarService, "CriarUsuarioService", "Serviço de Criação de Usuários", "Cria um novo usuário a partir do DTO")
+Component(editarService, "EditarUsuarioService", "Serviço de Edição de Usuários", "Edita um usuário existente com base no ID")
+Component(apagarService, "ApagarUsuarioService", "Serviço de Exclusão de Usuários", "Exclui um usuário com base no ID")
+Component(obterService, "ObterUsuarioPorIdService", "Serviço de Obtenção de Usuário", "Recupera um usuário com base no ID")
+Component(autenticarService, "AutenticarUsuarioService", "Serviço de Autenticação de Usuários", "Autentica o usuário e gera o token JWT")
+
+' DTOs de Autenticação
+Component(authenticationRequestDTO, "AuthenticationRequestDTO", "DTO de Autenticação", "Contém as informações de login do usuário")
+Component(jwtResponseDTO, "JwtAuthenticationResponseDTO", "DTO de Resposta de Autenticação", "Contém o token JWT gerado após a autenticação")
+
+' Relacionamentos
+Rel(controller, listarService, "Define", "Expõe o endpoint de listagem")
+Rel(controller, criarService, "Define", "Expõe o endpoint de criação")
+Rel(controller, editarService, "Define", "Expõe o endpoint de edição")
+Rel(controller, apagarService, "Define", "Expõe o endpoint de exclusão")
+Rel(controller, obterService, "Define", "Expõe o endpoint de obtenção de usuário")
+Rel(controller, autenticarService, "Define", "Expõe o endpoint de autenticação")
+
+Rel(listarService, controller, "Chama", "Obtém lista de usuários")
+Rel(criarService, controller, "Chama", "Cria um novo usuário")
+Rel(editarService, controller, "Chama", "Edita um usuário")
+Rel(apagarService, controller, "Chama", "Exclui um usuário")
+Rel(obterService, controller, "Chama", "Obtém usuário por ID")
+Rel(autenticarService, controller, "Chama", "Autentica o usuário")
+
+Rel(autenticarService, authenticationRequestDTO, "Usa", "Contém os dados de autenticação")
+Rel(autenticarService, jwtResponseDTO, "Retorna", "Retorna o token JWT")
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço para listar os tipos de atrativos turísticos
+Component(service, "ListarTipoAtrativosTuristicosService", "Serviço", "Responsável por listar tipos de atrativos turísticos")
+
+' Repositório do tipo de atrativo turístico
+Component(repository, "TipoAtrativoTuristicoRepository", "Repositório", "Acesso a dados para tipos de atrativos turísticos")
+
+' DTO de resposta para tipo de atrativo turístico
+Component(dto, "TipoAtrativoTuristicoDTO", "DTO de Resposta", "Representa os dados de tipo de atrativo turístico")
+
+' Specification para aplicar filtros e ordenação
+Component(specification, "TipoAtrativoTuristicoWithOrderSpec", "Specification", "Especificação para aplicar filtros e ordenação")
+
+' Relacionamentos
+Rel(service, repository, "Chama", "Consulta tipos de atrativos turísticos no repositório")
+Rel(service, dto, "Retorna", "Transforma os dados no formato de DTO")
+Rel(service, specification, "Aplica", "Usa a Specification para filtros e ordenação")
+Rel(repository, specification, "Usa", "Usa a Specification para consulta")
+
+@enduml

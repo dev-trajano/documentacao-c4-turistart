@@ -1,0 +1,40 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço principal
+Component(service, "SubmeterAtrativoTuristicoServiceImpl", "Serviço de Submissão de Atrativo Turístico", "Submete novos atrativos turísticos para validação")
+
+' Repositórios e Componentes Auxiliares
+Component(repository, "AtrativoTuristicoRepository", "Repositório de Atrativos Turísticos", "Interface para operações no banco de dados de atrativos turísticos")
+Component(municipioRepository, "MunicipioRepository", "Repositório de Municípios", "Interface para consultar ou salvar dados de municípios")
+Component(util, "ConversorAtrativoTuristicoUtil", "Utilitário", "Converte entidades de atrativos turísticos para DTOs")
+Component(dtoInput, "SubmeterAtrativoTuristicoDTO", "DTO de Entrada", "Dados fornecidos pelo cliente para submissão")
+Component(dtoOutput, "AtrativoTuristicoDTO", "DTO de Saída", "Representa o atrativo turístico submetido")
+Component(entity, "AtrativoTuristico", "Entidade", "Entidade persistida no banco de dados")
+Component(entityMunicipio, "Municipio", "Entidade", "Entidade de município associada ao atrativo")
+
+' Cache
+Component(cache, "CacheService", "Gerenciador de Cache", "Gerencia e invalida caches relacionados aos atrativos e municípios")
+
+' Método principal
+Component(method, "submeterAtrativoTuristico", "Método", "Submete um novo atrativo turístico com validação inicial")
+
+' Fluxos Alternativos e Erros
+Component(errorFlow, "Fluxo de Erro", "Fluxo", "Lida com casos como município não encontrado, erros de persistência, etc.")
+
+' Relacionamentos
+Rel(service, method, "Define", "Gerencia lógica de submissão de atrativo turístico")
+Rel(method, repository, "Usa", "Salva o atrativo turístico no banco de dados")
+Rel(method, municipioRepository, "Usa", "Busca ou cria o município associado ao atrativo")
+Rel(method, util, "Usa", "Converte a entidade persistida para DTO")
+Rel(method, dtoInput, "Recebe", "Dados fornecidos pelo cliente")
+Rel(method, dtoOutput, "Retorna", "Atrativo turístico submetido")
+Rel(method, cache, "Evita", "Invalida entradas de cache relacionadas")
+Rel(method, entity, "Manipula", "Cria e preenche dados da entidade de atrativo turístico")
+Rel(method, entityMunicipio, "Manipula", "Associa o município ao atrativo")
+Rel(method, errorFlow, "Chama", "Fluxo alternativo em caso de erro")
+
+@enduml

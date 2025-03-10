@@ -1,0 +1,31 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Componentes envolvidos no processo de autenticação
+Component(controller, "AutenticarUsuarioServiceImpl", "Serviço de Autenticação", "Responsável pela autenticação de usuários com base em email e senha")
+
+' Gerenciador de autenticação
+Component(authenticationManager, "AuthenticationManager", "Gerenciador de Autenticação", "Responsável pela verificação das credenciais do usuário")
+
+' Serviço de JWT
+Component(jwtService, "JWTService", "Serviço de Geração de Tokens JWT", "Responsável por gerar o token JWT após a autenticação bem-sucedida")
+
+' Serviço para obter usuário por email
+Component(obterUsuarioEmailService, "ObterUsuarioPorEmailServiceImpl", "Serviço de Obtenção de Usuário", "Responsável por carregar o usuário do banco de dados usando o email")
+
+' DTO de requisição de autenticação
+Component(authenticationRequestDTO, "AuthenticationRequestDTO", "DTO de Requisição de Autenticação", "Contém os dados necessários para a autenticação (email e senha)")
+
+' DTO de resposta com token JWT
+Component(jwtAuthenticationResponseDTO, "JwtAuthenticationResponseDTO", "DTO de Resposta de Autenticação", "Contém o token JWT gerado")
+
+' Relacionamentos
+Rel(controller, authenticationManager, "Autentica", "Autentica o usuário com email e senha")
+Rel(authenticationManager, obterUsuarioEmailService, "Busca", "Carrega o usuário para autenticação")
+Rel(controller, jwtService, "Gera", "Gera o token JWT após a autenticação bem-sucedida")
+Rel(controller, jwtAuthenticationResponseDTO, "Retorna", "Retorna o token JWT no formato DTO")
+
+@enduml

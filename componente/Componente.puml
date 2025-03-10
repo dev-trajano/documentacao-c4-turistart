@@ -1,0 +1,72 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot", "Esta é a aplicação responsável por gerenciar os atrativos turísticos e usuários da plataforma de turismo.")
+
+' Containers Externos
+ContainerDb(database, "Banco de Dados", "Banco Relacional", "Armazena dados dos usuários, atrativos turísticos e outras entidades da plataforma.")
+Container_Ext(externalSystem, "Sistema Externo Cadastur", "API Externa", "Sistema que fornece informações sobre atividades turísticas e prestadores de serviço.")
+
+' Controladores
+Component(controller, "UsuarioController", "Controlador REST", "Expõe endpoints para gerenciamento de usuários (criação, edição, exclusão, autenticação e listagem).")
+Component(controller2, "AtividadeTuristicaController", "Controlador REST", "Expõe endpoints para gerenciar atividades turísticas.")
+Component(controller3, "SegmentacaoTuristicaController", "Controlador REST", "Expõe endpoints para gerenciar segmentações turísticas.")
+Component(controller4, "TipoAtrativoTuristicoController", "Controlador REST", "Expõe endpoints para gerenciar tipos de atrativos turísticos.")
+Component(controller5, "ImportacaoController", "Controlador REST", "Expõe endpoints para importar dados de atrativos turísticos via planilha.")
+
+' Serviços de Usuário
+Component(listarUsuariosService, "ListarUsuariosService", "Serviço de Listagem de Usuários", "Obtém a lista de usuários com base nos filtros e na paginação.")
+Component(criarUsuarioService, "CriarUsuarioService", "Serviço de Criação de Usuários", "Cria um novo usuário a partir do DTO.")
+Component(editarUsuarioService, "EditarUsuarioService", "Serviço de Edição de Usuários", "Edita um usuário existente com base no ID.")
+Component(apagarUsuarioService, "ApagarUsuarioService", "Serviço de Exclusão de Usuários", "Exclui um usuário com base no ID.")
+Component(obterUsuarioService, "ObterUsuarioPorIdService", "Serviço de Obtenção de Usuário", "Recupera um usuário com base no ID.")
+Component(autenticarUsuarioService, "AutenticarUsuarioService", "Serviço de Autenticação de Usuários", "Autentica o usuário e gera o token JWT.")
+
+' Serviços de Atrativo Turístico
+Component(listarAtrativosTuristicosService, "ListarAtrativosTuristicosService", "Serviço de Listagem de Atrativos Turísticos", "Obtém a lista de atrativos turísticos com base nos filtros e na paginação.")
+Component(criarAtrativoTuristicoService, "CriarAtrativoTuristicoService", "Serviço de Criação de Atrativos Turísticos", "Cria um novo atrativo turístico.")
+Component(editarAtrativoTuristicoService, "EditarAtrativoTuristicoService", "Serviço de Edição de Atrativos Turísticos", "Edita um atrativo turístico com base no ID.")
+Component(apagarAtrativoTuristicoService, "ApagarAtrativoTuristicoService", "Serviço de Exclusão de Atrativos Turísticos", "Exclui um atrativo turístico com base no ID.")
+Component(importarAtrativosTuristicosPorPlanilhaService, "ImportarAtrativosTuristicosPorPlanilhaService", "Serviço de Importação de Atrativos Turísticos", "Importa atrativos turísticos de uma planilha.")
+
+' Serviços Externos
+Component(listarSegmentacoesTuristicasService, "ListarSegmentacoesTuristicasService", "Serviço de Listagem de Segmentações Turísticas", "Obtém a lista de segmentações turísticas.")
+Component(listarTipoAtrativosTuristicosService, "ListarTipoAtrativosTuristicosService", "Serviço de Listagem de Tipos de Atrativos Turísticos", "Obtém a lista de tipos de atrativos turísticos.")
+
+' Relacionamentos
+Rel(controller, listarUsuariosService, "Chama", "Obtém lista de usuários.")
+Rel(controller, criarUsuarioService, "Chama", "Cria um novo usuário.")
+Rel(controller, editarUsuarioService, "Chama", "Edita um usuário.")
+Rel(controller, apagarUsuarioService, "Chama", "Exclui um usuário.")
+Rel(controller, obterUsuarioService, "Chama", "Obtém um usuário por ID.")
+Rel(controller, autenticarUsuarioService, "Chama", "Autentica um usuário e gera o token JWT.")
+Rel(controller2, listarAtrativosTuristicosService, "Chama", "Obtém a lista de atrativos turísticos.")
+Rel(controller3, listarSegmentacoesTuristicasService, "Chama", "Obtém a lista de segmentações turísticas.")
+Rel(controller4, listarTipoAtrativosTuristicosService, "Chama", "Obtém a lista de tipos de atrativos turísticos.")
+Rel(controller5, importarAtrativosTuristicosPorPlanilhaService, "Chama", "Importa atrativos turísticos por planilha.")
+
+Rel(listarUsuariosService, controller, "Chama", "Obtém lista de usuários com base nos filtros.")
+Rel(criarUsuarioService, controller, "Chama", "Cria um novo usuário.")
+Rel(editarUsuarioService, controller, "Chama", "Edita os dados do usuário.")
+Rel(apagarUsuarioService, controller, "Chama", "Exclui um usuário.")
+Rel(obterUsuarioService, controller, "Chama", "Recupera os dados de um usuário.")
+Rel(autenticarUsuarioService, controller, "Chama", "Autentica o usuário e gera um JWT.")
+Rel(listarAtrativosTuristicosService, controller2, "Chama", "Obtém a lista de atrativos turísticos.")
+Rel(importarAtrativosTuristicosPorPlanilhaService, controller5, "Chama", "Importa dados de atrativos turísticos por planilha.")
+Rel(listarSegmentacoesTuristicasService, controller3, "Chama", "Obtém a lista de segmentações turísticas.")
+Rel(listarTipoAtrativosTuristicosService, controller4, "Chama", "Obtém a lista de tipos de atrativos turísticos.")
+
+Rel(listarUsuariosService, database, "Usa", "Consulta os dados dos usuários.")
+Rel(criarUsuarioService, database, "Usa", "Armazena novos usuários.")
+Rel(editarUsuarioService, database, "Usa", "Atualiza os dados dos usuários.")
+Rel(apagarUsuarioService, database, "Usa", "Exclui os dados dos usuários.")
+Rel(listarAtrativosTuristicosService, database, "Usa", "Consulta os dados dos atrativos turísticos.")
+Rel(importarAtrativosTuristicosPorPlanilhaService, database, "Usa", "Armazena atrativos turísticos.")
+Rel(listarSegmentacoesTuristicasService, database, "Usa", "Consulta as segmentações turísticas.")
+Rel(listarTipoAtrativosTuristicosService, database, "Usa", "Consulta os tipos de atrativos turísticos.")
+
+Rel(externalSystem, listarSegmentacoesTuristicasService, "Consulta", "Obtém segmentações turísticas do sistema externo Cadastur.")
+Rel(externalSystem, listarTipoAtrativosTuristicosService, "Consulta", "Obtém tipos de atrativos turísticos do sistema externo Cadastur.")
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço Principal
+Component(service, "ApagarPermissaoServiceImpl", "Serviço", "Lógica para excluir permissões do sistema")
+
+' Repositório
+Component(repo, "PermissaoRepository", "Repositório", "Acesso ao banco de dados para permissões")
+
+' Exceção
+Component(exception, "NaoEncontradoException", "Exceção", "Exceção lançada quando a permissão não é encontrada")
+
+' Cache
+Component(cacheUsuarios, "ListarUsuariosServiceImpl.CACHE_NAME", "Cache", "Cache dos dados de usuários")
+Component(cachePermissoes, "ListarPermissoesServiceImpl.CACHE_NAME", "Cache", "Cache dos dados de permissões")
+
+' Relacionamentos
+Rel(service, repo, "Verifica e exclui", "Confirma a existência e remove a permissão do banco de dados")
+Rel(service, exception, "Lança", "Exceção em caso de permissão inexistente")
+Rel(service, cacheUsuarios, "Evict", "Limpa o cache de usuários após exclusão")
+Rel(service, cachePermissoes, "Evict", "Limpa o cache de permissões após exclusão")
+
+@enduml

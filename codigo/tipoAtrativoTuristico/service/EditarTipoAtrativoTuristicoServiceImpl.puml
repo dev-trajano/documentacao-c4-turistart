@@ -1,0 +1,24 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço para editar tipo de atrativo turístico
+Component(service, "EditarTipoAtrativoTuristicoService", "Serviço", "Lógica para editar tipo de atrativo turístico")
+
+' Repositório do tipo de atrativo turístico
+Component(repository, "TipoAtrativoTuristicoRepository", "Repositório", "Acesso a dados para tipos de atrativos turísticos")
+
+' DTO de entrada para edição de tipo de atrativo turístico
+Component(dtoIn, "EditarTipoAtrativoTuristicoDTO", "DTO de Entrada", "Representa os dados necessários para editar um tipo de atrativo turístico")
+
+' Exceção caso o tipo de atrativo turístico não seja encontrado
+Component(exception, "NaoEncontradoException", "Exceção", "Exceção lançada quando o tipo de atrativo turístico não é encontrado")
+
+' Relacionamentos
+Rel(service, repository, "Chama", "Atualiza tipo de atrativo turístico no repositório")
+Rel(service, dtoIn, "Recebe", "Dados de entrada para edição de tipo de atrativo turístico")
+Rel(service, exception, "Lança", "Caso o tipo de atrativo turístico não seja encontrado")
+
+@enduml

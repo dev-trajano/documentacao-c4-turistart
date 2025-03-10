@@ -1,0 +1,24 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço Principal
+Component(service, "ListarMunicipiosServiceImpl", "Serviço", "Lista municípios com suporte a filtros e ordenação")
+
+' Repositório
+Component(repository, "MunicipioRepository", "Repositório JPA", "Consulta os dados de municípios no banco de dados")
+
+' Utilitário de Mapeamento
+Component(util, "ObjectMapperUtils", "Utilitário", "Converte entidades para DTOs")
+
+' DTO de Resposta
+Component(dto, "MunicipioDTO", "DTO de Resposta", "Representa os dados do município retornados pela API")
+
+' Relacionamentos
+Rel(service, repository, "Consulta", "Recupera dados aplicando filtros e ordenação")
+Rel(service, util, "Usa", "Converte entidades para DTOs")
+Rel(service, dto, "Retorna", "Envia os dados mapeados para DTO")
+
+@enduml

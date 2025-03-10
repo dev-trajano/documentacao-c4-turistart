@@ -1,0 +1,40 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador principal
+Component(controller, "SegmentacaoTuristicaController", "Controlador REST", "Exposição de endpoints para gerenciamento de segmentações turísticas")
+
+' Serviço para listar as segmentações turísticas
+Component(service_listar, "ListarSegmentacoesTuristicasService", "Serviço", "Lista segmentações turísticas com filtros")
+
+' Serviço para criar segmentações turísticas
+Component(service_criar, "CriarSegmentacaoTuristicaService", "Serviço", "Lógica para criar uma nova segmentação turística")
+
+' Serviço para editar segmentações turísticas
+Component(service_editar, "EditarSegmentacaoTuristicaService", "Serviço", "Lógica para editar uma segmentação turística existente")
+
+' Serviço para apagar segmentações turísticas
+Component(service_apagar, "ApagarSegmentacaoTuristicaService", "Serviço", "Lógica para apagar uma segmentação turística")
+
+' Serviço para obter segmentações turísticas por ID
+Component(service_obter, "ObterSegmentacaoTuristicaPorIdService", "Serviço", "Lógica para obter uma segmentação turística por ID")
+
+' DTO de Resposta
+Component(dto_listar, "SegmentacaoTuristicaDTO", "DTO de Resposta", "Representa as informações de uma segmentação turística")
+
+' Relacionamentos
+Rel(controller, service_listar, "Chama", "Exibe lista com filtro")
+Rel(controller, service_criar, "Chama", "Cria uma nova segmentação")
+Rel(controller, service_editar, "Chama", "Edita uma segmentação existente")
+Rel(controller, service_apagar, "Chama", "Apaga uma segmentação")
+Rel(controller, service_obter, "Chama", "Obtém segmentação por ID")
+Rel(service_listar, dto_listar, "Retorna", "Lista segmentações turísticas")
+Rel(service_criar, dto_listar, "Retorna", "Retorna a segmentação criada")
+Rel(service_editar, dto_listar, "Retorna", "Retorna a segmentação editada")
+Rel(service_apagar, dto_listar, "Retorna", "Retorna confirmação de exclusão")
+Rel(service_obter, dto_listar, "Retorna", "Retorna segmentação por ID")
+
+@enduml

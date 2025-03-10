@@ -1,0 +1,30 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Classe de Serviço Principal
+Component(service, "ImportarAtrativosTuristicosPorPlanilhaServiceImpl", "Serviço", "Processa planilhas para importar atrativos turísticos")
+
+' Repositórios usados
+Component(atrativoRepo, "AtrativoTuristicoRepository", "Repositório", "Acesso ao banco de dados para atrativos turísticos")
+Component(segmentacaoRepo, "SegmentacaoTuristicaRepository", "Repositório", "Acesso ao banco de dados para segmentações turísticas")
+Component(tipoRepo, "TipoAtrativoTuristicoRepository", "Repositório", "Acesso ao banco de dados para tipos de atrativos")
+Component(municipioRepo, "MunicipioRepository", "Repositório", "Acesso ao banco de dados para municípios")
+
+' Serviço de Arquivos
+Component(arquivoService, "ArquivoService", "Serviço", "Gerenciamento de arquivos e uploads")
+
+' Método principal
+Component(method, "importarAtrativosTuristicosPorPlanilha", "Método", "Importa atrativos turísticos a partir de uma planilha")
+
+' Relacionamentos
+Rel(service, method, "Define", "Executa a importação de dados")
+Rel(method, atrativoRepo, "Usa", "Salva atrativos turísticos")
+Rel(method, segmentacaoRepo, "Usa", "Consulta e salva segmentações turísticas")
+Rel(method, tipoRepo, "Usa", "Consulta e salva tipos de atrativos")
+Rel(method, municipioRepo, "Usa", "Consulta e salva municípios")
+Rel(method, arquivoService, "Usa", "Faz upload de imagens")
+
+@enduml
