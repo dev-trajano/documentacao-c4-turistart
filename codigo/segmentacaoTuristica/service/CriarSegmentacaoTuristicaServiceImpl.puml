@@ -1,0 +1,24 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador principal
+Component(controller, "SegmentacaoTuristicaController", "Controlador REST", "Exposição de endpoints para gerenciamento de segmentações turísticas")
+
+' Serviço principal de criação
+Component(service, "CriarSegmentacaoTuristicaService", "Serviço", "Lógica para criação de segmentações turísticas")
+
+' Repositório
+Component(repo, "SegmentacaoTuristicaRepository", "Repositório", "Acesso ao banco de dados para segmentações turísticas")
+
+' DTO de resposta
+Component(dto, "SegmentacaoTuristicaDTO", "DTO", "Representa a segmentação turística criada")
+
+' Relacionamentos
+Rel(controller, service, "Chama", "Cria segmentação turística")
+Rel(service, repo, "Salva", "Salva segmentação turística no banco")
+Rel(service, dto, "Retorna", "Retorna DTO com dados da segmentação criada")
+
+@enduml

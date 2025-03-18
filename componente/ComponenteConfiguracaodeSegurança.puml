@@ -1,0 +1,63 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+System_Boundary(inovaturpb_api, "InovaTurPB API") {
+
+    ' Container de Serviços e Controladores
+    Container(inovaturpb_services, "Serviços", "Java Services", "Serviços para CRUD, Gestão de Atrativos, Segmentações, etc.") {
+        Component(criarAtrativoService, "Criar Atrativo Service", "Java Service", "Cria atrativos turísticos no banco de dados.")
+        Component(editarAtrativoService, "Editar Atrativo Service", "Java Service", "Edita atrativos turísticos no banco de dados.")
+        Component(apagarAtrativoService, "Apagar Atrativo Service", "Java Service", "Apaga atrativos turísticos no banco de dados.")
+        Component(listarAtrativosService, "Listar Atrativos Service", "Java Service", "Lista atrativos turísticos do banco de dados.")
+        Component(autenticarUsuarioService, "Autenticar Usuário Service", "Java Service", "Autentica usuários usando JWT.")
+    }
+
+    ' Container de Controladores
+    Container(inovaturpb_api_controllers, "Controladores", "Java Controllers", "Controladores que gerenciam as requisições HTTP.") {
+        Component(atrativoController, "Atrativo Controller", "Java Controller", "Gerencia as requisições HTTP para atrativos turísticos.")
+        Component(usuarioController, "Usuário Controller", "Java Controller", "Gerencia as requisições HTTP para usuários.")
+    }
+
+    ' Container de Configuração de Segurança
+    Container(inovaturpb_api_security, "Configuração de Segurança", "Java Security", "Configuração de segurança da API (JWT, permissões, roles)") {
+        Component(jwtAuthenticationFilter, "JWT Authentication Filter", "Java Filter", "Filtra e valida o JWT para autenticação nas requisições.")
+        Component(jwtAuthenticationProvider, "JWT Authentication Provider", "Java Auth Provider", "Processa e valida o JWT durante a autenticação.")
+        Component(securityConfig, "Security Config", "Java Config", "Configuração global de segurança (autenticação JWT, roles e permissões).")
+        Component(authenticationManager, "Authentication Manager", "Java Manager", "Gerencia a autenticação de usuários no sistema.")
+        Component(permissionService, "Permission Service", "Java Service", "Gerencia as permissões e roles dos usuários.")
+    }
+
+    ' Container de Banco de Dados
+    Container(inovaturpb_db, "Banco de Dados", "PostgreSQL", "Banco de dados que armazena os dados da aplicação.") {
+        Component(usuarioRepository, "Usuário Repository", "Java Repository", "Acessa a tabela de usuários no banco de dados.")
+        Component(atrativoRepository, "Atrativo Repository", "Java Repository", "Acessa a tabela de atrativos turísticos no banco de dados.")
+        Component(roleRepository, "Role Repository", "Java Repository", "Acessa a tabela de roles e permissões no banco de dados.")
+    }
+}
+
+' Relacionamentos entre Controladores, Serviços e Repositórios
+Rel(atrativoController, criarAtrativoService, "Chama serviço para criar atrativo turístico", "HTTP Requests")
+Rel(atrativoController, editarAtrativoService, "Chama serviço para editar atrativo turístico", "HTTP Requests")
+Rel(atrativoController, apagarAtrativoService, "Chama serviço para apagar atrativo turístico", "HTTP Requests")
+Rel(atrativoController, listarAtrativosService, "Chama serviço para listar atrativos turísticos", "HTTP Requests")
+
+Rel(usuarioController, autenticarUsuarioService, "Chama serviço para autenticar usuário", "HTTP Requests")
+
+' Relacionamentos de segurança (JWT, AuthProvider, etc.)
+Rel(atrativoController, jwtAuthenticationFilter, "Requisições passadas pelo filtro de autenticação JWT", "HTTP Requests")
+Rel(jwtAuthenticationFilter, jwtAuthenticationProvider, "Valida o JWT e autentica a requisição", "Token")
+Rel(jwtAuthenticationProvider, securityConfig, "Configuração da validação do JWT", "Configuração")
+Rel(securityConfig, authenticationManager, "Configura o gerenciador de autenticação", "Configuração")
+Rel(authenticationManager, permissionService, "Verifica permissões e roles de usuários", "Auth Process")
+
+' Relacionamentos com Banco de Dados
+Rel(criarAtrativoService, atrativoRepository, "Acessa banco para criar atrativo turístico", "JDBC")
+Rel(editarAtrativoService, atrativoRepository, "Acessa banco para editar atrativo turístico", "JDBC")
+Rel(apagarAtrativoService, atrativoRepository, "Acessa banco para apagar atrativo turístico", "JDBC")
+Rel(listarAtrativosService, atrativoRepository, "Acessa banco para listar atrativos turísticos", "JDBC")
+
+Rel(autenticarUsuarioService, usuarioRepository, "Valida usuário no banco de dados", "JDBC")
+Rel(permissionService, roleRepository, "Verifica permissões e roles no banco de dados", "JDBC")
+
+@enduml

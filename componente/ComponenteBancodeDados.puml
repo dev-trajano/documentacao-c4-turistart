@@ -1,0 +1,41 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+' Containers para Banco de Dados
+Container(db_repositories, "Repositórios de Banco de Dados", "Database Repositories", "Contém os repositórios para persistência dos dados.") {
+    Component(usuarioRepository, "UsuarioRepository", "Repository", "Gerencia a persistência dos dados de usuários.")
+    Component(tipoAtrativoTuristicoRepository, "TipoAtrativoTuristicoRepository", "Repository", "Gerencia a persistência dos dados dos tipos de atrativos turísticos.")
+    Component(segmentacaoTuristicaRepository, "SegmentacaoTuristicaRepository", "Repository", "Gerencia a persistência dos dados das segmentações turísticas.")
+    Component(atrativoTuristicoRepository, "AtrativoTuristicoRepository", "Repository", "Gerencia a persistência dos dados dos atrativos turísticos.")
+}
+
+' Serviços e Controladores com relações para os Repositórios
+Container(inovaturpb_services, "Serviços", "Java Services", "Serviços para gestão de dados e autenticação (CRUD, Gestão de Atrativos e Segmentações, etc.)") {
+    Component(criarUsuarioServiceImpl, "CriarUsuarioServiceImpl", "Java Service", "Cria usuários utilizando o UsuarioRepository.")
+    Component(criarAtrativoTuristicoServiceImpl, "CriarAtrativoTuristicoServiceImpl", "Java Service", "Cria atrativos turísticos utilizando o AtrativoTuristicoRepository.")
+    Component(criarSegmentacaoTuristicaServiceImpl, "CriarSegmentacaoTuristicaServiceImpl", "Java Service", "Cria segmentações turísticas utilizando o SegmentacaoTuristicaRepository.")
+    Component(criarTipoAtrativoTuristicoServiceImpl, "CriarTipoAtrativoTuristicoServiceImpl", "Java Service", "Cria tipos de atrativos turísticos utilizando o TipoAtrativoTuristicoRepository.")
+}
+
+Container(inovaturpb_api_controllers, "Controladores", "Java Controllers", "Recebe requisições HTTP e chama os serviços correspondentes.") {
+    Component(usuarioController, "UsuarioController", "Java Controller", "Gerencia requisições HTTP relacionadas aos usuários.")
+    Component(atrativoTuristicoController, "AtrativoTuristicoController", "Java Controller", "Gerencia requisições HTTP relacionadas aos atrativos turísticos.")
+    Component(segmentacaoTuristicaController, "SegmentacaoTuristicaController", "Java Controller", "Gerencia requisições HTTP relacionadas às segmentações turísticas.")
+    Component(tipoAtrativoTuristicoController, "TipoAtrativoTuristicoController", "Java Controller", "Gerencia requisições HTTP relacionadas aos tipos de atrativos turísticos.")
+}
+
+' Relacionamentos entre controladores, serviços e repositórios
+Rel(usuarioController, criarUsuarioServiceImpl, "Chama serviço para criar usuários", "HTTP Requests")
+Rel(atrativoTuristicoController, criarAtrativoTuristicoServiceImpl, "Chama serviço para criar atrativos turísticos", "HTTP Requests")
+Rel(segmentacaoTuristicaController, criarSegmentacaoTuristicaServiceImpl, "Chama serviço para criar segmentações turísticas", "HTTP Requests")
+Rel(tipoAtrativoTuristicoController, criarTipoAtrativoTuristicoServiceImpl, "Chama serviço para criar tipos de atrativos turísticos", "HTTP Requests")
+
+' Relacionamentos entre serviços e repositórios
+Rel(criarUsuarioServiceImpl, usuarioRepository, "Utiliza o UsuarioRepository para persistir dados de usuários", "Database Access")
+Rel(criarAtrativoTuristicoServiceImpl, atrativoTuristicoRepository, "Utiliza o AtrativoTuristicoRepository para persistir dados de atrativos turísticos", "Database Access")
+Rel(criarSegmentacaoTuristicaServiceImpl, segmentacaoTuristicaRepository, "Utiliza o SegmentacaoTuristicaRepository para persistir dados de segmentações turísticas", "Database Access")
+Rel(criarTipoAtrativoTuristicoServiceImpl, tipoAtrativoTuristicoRepository, "Utiliza o TipoAtrativoTuristicoRepository para persistir dados de tipos de atrativos turísticos", "Database Access")
+
+@enduml
+

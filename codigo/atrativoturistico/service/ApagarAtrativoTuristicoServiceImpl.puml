@@ -1,0 +1,28 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço principal
+Component(service, "ApagarAtrativoTuristicoServiceImpl", "Serviço de Exclusão de Atrativos Turísticos", "Gerencia a exclusão de atrativos turísticos no sistema")
+
+' Repositório
+Component(repository, "AtrativoTuristicoRepository", "Repositório de Atrativos Turísticos", "Interface para operações no banco de dados de atrativos turísticos")
+
+' Exceção
+Component(exception, "NaoEncontradoException", "Exceção", "Lançada quando o atrativo turístico não é encontrado")
+
+' Cache
+Component(cache, "CacheService", "Gerenciador de Cache", "Invalida entradas relacionadas a atrativos turísticos")
+
+' Método principal
+Component(method, "apagarAtrativoTuristico", "Método", "Realiza a exclusão do atrativo turístico com base no ID")
+
+' Relacionamentos
+Rel(service, method, "Define", "Lógica de exclusão de atrativos turísticos")
+Rel(method, repository, "Usa", "Verifica existência e exclui o atrativo turístico")
+Rel(method, exception, "Lança", "Se o atrativo turístico não for encontrado")
+Rel(method, cache, "Evita", "Invalida o cache relacionado a atrativos turísticos")
+
+@enduml

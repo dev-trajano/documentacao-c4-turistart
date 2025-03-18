@@ -1,0 +1,20 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Serviço para apagar tipo de atrativo turístico
+Component(service, "ApagarTipoAtrativoTuristicoService", "Serviço", "Lógica para apagar tipo de atrativo turístico")
+
+' Repositório do tipo de atrativo turístico
+Component(repository, "TipoAtrativoTuristicoRepository", "Repositório", "Acesso a dados para tipos de atrativos turísticos")
+
+' Exceção personalizada
+Component(exception, "NaoEncontradoException", "Exceção", "Lança erro quando o tipo de atrativo turístico não é encontrado")
+
+' Relacionamentos
+Rel(service, repository, "Chama", "Deleta o tipo de atrativo turístico pelo ID")
+Rel(service, exception, "Lança", "Lança exceção caso o tipo de atrativo turístico não seja encontrado")
+
+@enduml

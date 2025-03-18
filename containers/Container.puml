@@ -1,0 +1,23 @@
+@startuml
+!define C4_CONTAINER
+!include <C4/C4_Container.puml>
+
+System_Boundary(inovaturpb_api, "InovaTurPB API") {
+    Container(inovaturpb_application, "InovaturPB API Application", "Spring Boot Application", "API que expõe serviços de autenticação, gerenciamento de dados turísticos e outros serviços relacionados.")
+    
+    Container(inovaturpb_services, "Serviços", "Java Services", "Serviços para gestão de dados e autenticação (CRUD, Gestão de Atrativos e Segmentações, etc.)")
+    
+    Container(inovaturpb_storage, "Armazenamento", "AWS S3, Minio", "Serviços de armazenamento de arquivos, imagens e outros dados.")
+    
+    Container(inovaturpb_database, "Banco de Dados", "PostgreSQL", "Banco de dados relacional para persistência de dados de usuários, atrativos e outros dados do sistema.")
+    
+    Container(inovaturpb_api_config, "Configuração da API", "Java Config", "Configurações e segurança da API (ex: autenticação JWT, filtros de segurança).")
+}
+
+' Relacionamentos Internos entre os containers
+Rel(inovaturpb_application, inovaturpb_services, "Chama serviços para gerenciamento de dados", "HTTP Requests")
+Rel(inovaturpb_application, inovaturpb_storage, "Acessa armazenamento de arquivos", "HTTP Requests")
+Rel(inovaturpb_application, inovaturpb_database, "Acessa dados no banco", "JDBC/SQL")
+Rel(inovaturpb_application, inovaturpb_api_config, "Configura segurança da API", "Java Config")
+
+@enduml

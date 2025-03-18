@@ -1,0 +1,21 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+System_Boundary(inovaturpb_api, "InovaTurPB API") {
+    ' Container de Armazenamento
+    Container(inovaturpb_storage, "Armazenamento", "AWS S3, Minio", "Serviços de armazenamento de arquivos, imagens e outros dados.") {
+        
+        ' Componentes de Armazenamento
+        Component(arquivoStorageService, "Arquivo Storage Service", "Java Service", "Gerencia o armazenamento de arquivos no S3/Minio.")
+        Component(imagemStorageService, "Imagem Storage Service", "Java Service", "Gerencia o armazenamento de imagens no S3/Minio.")
+        Component(arquivoController, "Arquivo Controller", "Java Controller", "Recebe requisições HTTP relacionadas ao armazenamento de arquivos.")
+        Component(imagemController, "Imagem Controller", "Java Controller", "Recebe requisições HTTP relacionadas ao armazenamento de imagens.")
+    }
+}
+
+' Relacionamentos entre controladores e serviços
+Rel(arquivoController, arquivoStorageService, "Chama serviço para armazenar arquivos", "HTTP Requests")
+Rel(imagemController, imagemStorageService, "Chama serviço para armazenar imagens", "HTTP Requests")
+
+@enduml

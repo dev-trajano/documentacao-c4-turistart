@@ -1,0 +1,42 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador principal
+Component(controller, "PermissaoController", "Controlador REST", "Exposição de endpoints para gerenciar permissões")
+
+' Serviço principal de listagem de permissões
+Component(serviceList, "ListarPermissoesService", "Serviço", "Lógica de listagem de permissões")
+
+' Serviço de criação de permissões
+Component(serviceCreate, "CriarPermissaoService", "Serviço", "Lógica para criar permissões")
+
+' Serviço de edição de permissões
+Component(serviceEdit, "EditarPermissaoService", "Serviço", "Lógica para editar permissões")
+
+' Serviço de apagamento de permissões
+Component(serviceDelete, "ApagarPermissaoService", "Serviço", "Lógica para apagar permissões")
+
+' DTO de resposta
+Component(dto, "PermissaoDTO", "DTO de Resposta", "Representa as permissões retornadas")
+
+' Repositório
+Component(repo, "PermissaoRepository", "Repositório", "Acesso ao banco de dados para permissões")
+
+' Relacionamentos
+Rel(controller, serviceList, "Chama", "Consulta as permissões")
+Rel(controller, serviceCreate, "Chama", "Cria novas permissões")
+Rel(controller, serviceEdit, "Chama", "Edita permissões")
+Rel(controller, serviceDelete, "Chama", "Deleta permissões")
+Rel(serviceList, repo, "Consulta", "Consulta permissões no banco")
+Rel(serviceCreate, repo, "Cria", "Cria permissões no banco")
+Rel(serviceEdit, repo, "Edita", "Edita permissões no banco")
+Rel(serviceDelete, repo, "Deleta", "Deleta permissões do banco")
+Rel(serviceList, dto, "Retorna", "Retorna permissões mapeadas")
+Rel(serviceCreate, dto, "Retorna", "Retorna permissões criadas")
+Rel(serviceEdit, dto, "Retorna", "Retorna permissões editadas")
+Rel(serviceDelete, dto, "Retorna", "Retorna status da exclusão")
+
+@enduml

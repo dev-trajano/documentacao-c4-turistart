@@ -1,0 +1,20 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Componentes envolvidos no processo de obtenção do usuário
+Component(service, "ObterUsuarioPorEmailServiceImpl", "Serviço de Obtenção de Usuário por Email", "Responsável por carregar as informações do usuário pelo email")
+
+' Repositório de usuários
+Component(usuarioRepository, "UsuarioRepository", "Repositório de Usuários", "Responsável por recuperar os dados dos usuários no banco de dados")
+
+' UserDetails
+Component(userDetails, "UserDetails", "Objeto UserDetails", "Representa o usuário autenticado com detalhes como email, senha e perfil")
+
+' Relacionamentos
+Rel(service, usuarioRepository, "Consulta", "Recupera o usuário por email")
+Rel(service, userDetails, "Retorna", "Retorna os detalhes do usuário para autenticação")
+
+@enduml

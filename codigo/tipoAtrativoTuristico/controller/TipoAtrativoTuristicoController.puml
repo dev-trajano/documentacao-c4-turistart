@@ -1,0 +1,40 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador REST
+Component(controller, "TipoAtrativoTuristicoController", "Controlador REST", "Expõe endpoints para CRUD de tipos de atrativos turísticos")
+
+' Serviço para listar tipos de atrativos turísticos
+Component(listarService, "ListarTipoAtrativosTuristicosService", "Serviço de Listagem", "Serviço para listar tipos de atrativos turísticos")
+
+' Serviço para criar tipos de atrativos turísticos
+Component(criarService, "CriarTipoAtrativoTuristicoService", "Serviço de Criação", "Serviço para criar novos tipos de atrativos turísticos")
+
+' Serviço para editar tipos de atrativos turísticos
+Component(editarService, "EditarTipoAtrativoTuristicoService", "Serviço de Edição", "Serviço para editar tipos de atrativos turísticos")
+
+' Serviço para apagar tipos de atrativos turísticos
+Component(apagarService, "ApagarTipoAtrativoTuristicoService", "Serviço de Apagar", "Serviço para apagar tipos de atrativos turísticos")
+
+' Serviço para obter tipo de atrativo turístico por ID
+Component(obterService, "ObterTipoAtrativoTuristicoPorIdService", "Serviço de Obtenção", "Serviço para obter um tipo de atrativo turístico por ID")
+
+' DTO de resposta
+Component(dto, "TipoAtrativoTuristicoDTO", "DTO", "Representa os dados de tipos de atrativos turísticos")
+
+' Relacionamentos
+Rel(controller, listarService, "Chama", "Lista tipos de atrativos turísticos")
+Rel(controller, criarService, "Chama", "Cria um novo tipo de atrativo turístico")
+Rel(controller, editarService, "Chama", "Edita um tipo de atrativo turístico")
+Rel(controller, apagarService, "Chama", "Apaga um tipo de atrativo turístico")
+Rel(controller, obterService, "Chama", "Obtém tipo de atrativo turístico por ID")
+Rel(listarService, dto, "Retorna", "Retorna os tipos de atrativos turísticos listados")
+Rel(criarService, dto, "Retorna", "Retorna o tipo de atrativo turístico criado")
+Rel(editarService, dto, "Retorna", "Retorna o tipo de atrativo turístico editado")
+Rel(apagarService, dto, "Retorna", "Confirma a remoção do tipo de atrativo turístico")
+Rel(obterService, dto, "Retorna", "Retorna o tipo de atrativo turístico encontrado")
+
+@enduml

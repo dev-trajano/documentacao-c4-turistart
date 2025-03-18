@@ -1,0 +1,13 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(api, "Observatório do Turismo API", "Spring Boot Application") {
+    Component(controller, "ImportacaoController", "Controller", "Controlador REST responsável por gerenciar a importação de atrativos turísticos via planilha.")
+    Component(service, "ImportarAtrativosTuristicosPorPlanilhaService", "Service", "Lógica de negócio para processar e importar atrativos turísticos de uma planilha.")
+    Component(file, "MultipartFile", "File", "Arquivo planilha recebido para importação.")
+}
+
+Rel(controller, service, "Usa", "Chama o serviço de importação de atrativos turísticos")
+Rel(controller, file, "Recebe", "Arquivo (MultipartFile)")
+@enduml

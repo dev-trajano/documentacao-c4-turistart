@@ -1,0 +1,14 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+Component(controller, "LocalidadeController", "Controlador REST", "Gerencia endpoints relacionados às localidades do Cadastur")
+Component(service, "ListarLocalidadesService", "Serviço", "Realiza buscas de localidades no Cadastur")
+Component(dto, "LocalidadeDTO", "DTO", "Representa os dados de uma localidade retornada pelo serviço")
+Component(filters, "FiltrosBuscaLocalidadeDTO", "DTO", "Encapsula os critérios de busca para localidades")
+
+Rel(controller, service, "Usa", "Obtém lista de localidades com filtros")
+Rel(controller, filters, "Recebe", "Parâmetros de busca para as localidades")
+@enduml

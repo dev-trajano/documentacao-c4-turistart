@@ -1,0 +1,24 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador principal
+Component(controller, "ArquivoController", "Controlador REST", "Exposição de endpoints para gerenciamento de arquivos")
+
+' Serviço principal
+Component(service, "CriaUrlPreAssinadaDeUploadService", "Serviço de Geração de URLs Pre-Assinadas", "Gera URLs pre-assinadas para upload de arquivos")
+
+' DTO de resposta
+Component(dto, "PresignedUploadDTO", "DTO de Resposta", "Representa a URL gerada e o nome único do arquivo")
+
+' Método principal
+Component(method, "criaUrlPreAssinadaDeUploadUrl", "Método", "Endpoint para gerar URLs pre-assinadas para upload")
+
+' Relacionamentos
+Rel(controller, method, "Define", "Expõe o endpoint")
+Rel(method, service, "Chama", "Gera a URL pre-assinada de upload")
+Rel(method, dto, "Retorna", "Inclui a URL gerada e o nome único do arquivo")
+
+@enduml

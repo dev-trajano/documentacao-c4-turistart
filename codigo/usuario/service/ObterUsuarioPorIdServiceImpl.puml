@@ -1,0 +1,20 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Componentes envolvidos no processo de obtenção do usuário por ID
+Component(service, "ObterUsuarioPorIdServiceImpl", "Serviço de Obtenção de Usuário por ID", "Responsável por carregar as informações do usuário pelo ID")
+
+' Repositório de usuários
+Component(usuarioRepository, "UsuarioRepository", "Repositório de Usuários", "Responsável por recuperar os dados dos usuários no banco de dados")
+
+' DTO de resposta
+Component(dto, "UsuarioDTO", "DTO de Resposta", "Representa o usuário e suas informações")
+
+' Relacionamentos
+Rel(service, usuarioRepository, "Consulta", "Recupera o usuário por ID")
+Rel(service, dto, "Retorna", "Retorna os dados do usuário como DTO")
+
+@enduml

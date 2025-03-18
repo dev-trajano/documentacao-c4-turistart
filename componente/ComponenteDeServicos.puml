@@ -1,0 +1,29 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+System_Boundary(inovaturpb_api, "InovaTurPB API") {
+    ' Container de Serviços
+    Container(inovaturpb_services, "Serviços", "Java Services", "Serviços para gestão de dados e autenticação (CRUD, Gestão de Atrativos e Segmentações, etc.)") {
+        
+        ' Componentes de Serviço
+        Component(atrativoTuristicoService, "Atrativo Turístico Service", "Java Service", "Cria, edita, apaga, lista e cadastra atrativos turísticos.")
+        Component(segmentacaoTuristicaService, "Segmentação Turística Service", "Java Service", "Cria, edita, apaga, lista e cadastra segmentações turísticas.")
+        Component(tipoAtrativoTuristicoService, "Tipo Atrativo Turístico Service", "Java Service", "Cria, edita, apaga, lista e cadastra tipos de atrativos turísticos.")
+        Component(usuarioService, "Usuário Service", "Java Service", "Cria, edita, apaga, autentica e cadastra usuários.")
+    }
+    
+    ' Container de Controladores
+    Container(inovaturpb_api_controllers, "Controladores", "Java Controllers", "Recebe requisições HTTP e chama os serviços correspondentes.") {
+        Component(atrativoTuristicoController, "Atrativo Turístico Controller", "Java Controller", "Gerencia requisições HTTP relacionadas aos atrativos turísticos e cadastra novos atrativos.")
+        Component(segmentacaoTuristicaController, "Segmentação Turística Controller", "Java Controller", "Gerencia requisições HTTP relacionadas às segmentações turísticas e cadastra novas segmentações.")
+        Component(tipoAtrativoTuristicoController, "Tipo Atrativo Turístico Controller", "Java Controller", "Gerencia requisições HTTP relacionadas aos tipos de atrativos turísticos e cadastra novos tipos.")
+        Component(usuarioController, "Usuário Controller", "Java Controller", "Gerencia requisições HTTP relacionadas aos usuários e cadastra novos usuários.")
+    }
+}
+
+' Relacionamentos entre controladores e serviços
+Rel(atrativoTuristicoController, atrativoTuristicoService, "Chama serviço para criar, editar, apagar, listar e cadastrar atrativos turísticos", "HTTP Requests")
+Rel(segmentacaoTuristicaController, segmentacaoTuristicaService, "Chama serviço para criar, editar, apagar, listar e cadastrar segmentações turísticas", "HTTP Requests")
+Rel(tipoAtrativoTuristicoController, tipoAtrativoTuristicoService, "Chama serviço para criar, editar, apagar, listar e cadastrar tipos de atrativos turísticos", "HTTP Requests")
+Rel(usuarioController, usuarioService, "Chama serviço para criar, editar, apagar, autenticar e cadastrar usuários", "HTTP Requests")
+@enduml

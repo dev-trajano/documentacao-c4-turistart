@@ -1,0 +1,24 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador Principal
+Component(controller, "MunicipioController", "Controlador REST", "Exposição de endpoints para listar municípios")
+
+' Serviço Principal
+Component(service, "ListarMunicipiosService", "Serviço", "Realiza a listagem de municípios com suporte a filtros")
+
+' DTO de Resposta
+Component(dto, "MunicipioDTO", "DTO de Resposta", "Representa os dados do município retornados pela API")
+
+' Especificação de Filtros
+Component(spec, "Specification<Municipio>", "Filtro", "Definição de filtros dinâmicos usando Spring Data JPA")
+
+' Relacionamentos
+Rel(controller, service, "Chama", "Invoca o serviço para obter a lista de municípios")
+Rel(service, dto, "Retorna", "Envia os dados mapeados para DTO")
+Rel(controller, spec, "Recebe", "Aceita os filtros como entrada para a consulta")
+
+@enduml

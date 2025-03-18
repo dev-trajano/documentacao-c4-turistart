@@ -1,0 +1,27 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Componentes envolvidos no processo de criação de um usuário
+Component(service, "CriarUsuarioServiceImpl", "Serviço de Criação de Usuário", "Responsável pela criação de um novo usuário")
+
+' Repositório de usuários
+Component(usuarioRepository, "UsuarioRepository", "Repositório de Usuários", "Responsável pela persistência dos dados do usuário")
+
+' Serviço de criptografia de senhas
+Component(passwordEncoder, "PasswordEncoder", "Serviço de Criptografia de Senha", "Responsável pela criptografia da senha do usuário")
+
+' DTO de entrada para criação de usuário
+Component(criarUsuarioDTO, "CriarUsuarioDTO", "DTO de Entrada", "Contém os dados necessários para criar um novo usuário")
+
+' DTO de saída para usuário criado
+Component(usuarioDTO, "UsuarioDTO", "DTO de Resposta", "Representa os dados do usuário após a criação")
+
+' Relacionamentos
+Rel(service, usuarioRepository, "Salva", "Salva o usuário no banco de dados")
+Rel(service, passwordEncoder, "Criptografa", "Criptografa a senha antes de salvar")
+Rel(service, usuarioDTO, "Retorna", "Retorna os dados do usuário criado")
+
+@enduml

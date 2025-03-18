@@ -1,0 +1,28 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador principal
+Component(controller, "ObterSegmentacaoTuristicaPorIdController", "Controlador REST", "Exposição de endpoints para obtenção de segmentações turísticas")
+
+' Serviço principal
+Component(service, "ObterSegmentacaoTuristicaPorIdService", "Serviço", "Lógica para obter uma segmentação turística por ID")
+
+' Repositório
+Component(repo, "SegmentacaoTuristicaRepository", "Repositório", "Acesso ao banco de dados para segmentações turísticas")
+
+' DTO de Resposta
+Component(dto, "SegmentacaoTuristicaDTO", "DTO de Resposta", "Representa as informações de uma segmentação turística")
+
+' Método de obtenção
+Component(method, "obterSegmentacaoTuristicaPorId", "Método", "Endpoint para obter uma segmentação turística por ID")
+
+' Relacionamentos
+Rel(controller, method, "Chama", "Expõe o endpoint")
+Rel(method, service, "Chama", "Executa a lógica de obtenção")
+Rel(service, repo, "Consulta", "Busca a segmentação turística no banco de dados")
+Rel(service, dto, "Retorna", "Retorna a segmentação turística como DTO")
+
+@enduml

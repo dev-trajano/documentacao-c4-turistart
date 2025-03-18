@@ -1,0 +1,17 @@
+@startuml
+!define C4_CONTEXT
+!include <C4/C4_Context.puml>
+
+System_Boundary(inovaturpb_api, "inovaturpb-api") {
+    System(inovaturpb_system, "InovaTurPB API", "Aplicação Spring Boot que gerencia os dados de atrativos turísticos, usuários, autenticação e outros serviços relacionados ao turismo.")
+}
+
+Person(externalUser, "Usuário Externo", "Interage com a aplicação via API, buscando informações sobre atrativos turísticos, segmentações, e realizando autenticação.")
+Person(internalAdmin, "Administrador", "Gerencia os dados da plataforma, como usuários, atrativos turísticos, segmentações turísticas e tipos de atrativos.")
+System(externalSystem, "Sistema Externo Cadastur", "Sistema externo que fornece dados sobre atividades turísticas e prestadores de serviço.")
+
+Rel(externalUser, inovaturpb_system, "Acessa dados sobre atrativos turísticos e realiza autenticação", "Via HTTP API")
+Rel(internalAdmin, inovaturpb_system, "Gerencia dados e acessa funcionalidades administrativas", "Via HTTP API")
+Rel(externalSystem, inovaturpb_system, "Fornece dados sobre atividades turísticas e prestadores", "Via API")
+
+@enduml

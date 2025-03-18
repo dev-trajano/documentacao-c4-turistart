@@ -1,0 +1,13 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container_Boundary(api, "API Observatório do Turismo") {
+    Component(service, "ListarAtividadesTuristicasServiceImpl", "Service", "Lista as atividades turísticas do Cadastur")
+    Component(client, "CadasturClient", "Client", "Comunica-se com o sistema Cadastur")
+    Component(cache, "Cache", "Cache", "Armazena dados para melhorar a performance")
+}
+
+Rel(service, client, "Faz requisição para", "HTTP")
+Rel(service, cache, "Armazena dados no", "Cacheable")
+@enduml

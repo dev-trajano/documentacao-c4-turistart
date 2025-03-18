@@ -1,0 +1,20 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador Principal
+Component(controller, "ImportacaoController", "Controlador REST", "Exposição de endpoints para importação de atrativos turísticos")
+
+' Serviço Principal
+Component(service, "ImportarAtrativosTuristicosPorPlanilhaService", "Serviço", "Processa planilhas para importar atrativos turísticos")
+
+' Método Principal
+Component(method, "importarAtrativosTuristicosPorPlanilha", "Método", "Endpoint para importar dados de atrativos a partir de uma planilha")
+
+' Relacionamentos
+Rel(controller, method, "Define", "Expõe o endpoint para receber planilhas")
+Rel(method, service, "Chama", "Executa a lógica de importação a partir do arquivo recebido")
+
+@enduml

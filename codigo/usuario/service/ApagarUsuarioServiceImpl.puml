@@ -1,0 +1,22 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container(app, "inovaturpb-api", "Aplicação Spring Boot")
+
+' Controlador e Serviço principal
+Component(controller, "ApagarUsuarioServiceImpl", "Serviço de Apagar Usuario", "Responsável pela exclusão de um usuário")
+
+' Repositório de usuário
+Component(repository, "UsuarioRepository", "Repositório", "Interage com o banco de dados para realizar operações CRUD de usuários")
+
+' Serviço de listar usuários
+Component(listarUsuariosService, "ListarUsuariosServiceImpl", "Serviço de Listagem de Usuários", "Responsável pela listagem de usuários")
+
+' Relacionamentos
+Rel(controller, repository, "Chama", "Deleta o usuário com o ID fornecido")
+Rel(controller, listarUsuariosService, "Evita cache", "Evita cache de usuários após remoção")
+Rel(controller, repository, "Deleta", "Deleta o usuário se encontrado no banco de dados")
+Rel(controller, repository, "Exibe erro", "Lança erro caso o usuário não seja encontrado")
+
+@enduml

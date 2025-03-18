@@ -1,0 +1,17 @@
+@startuml
+!define C4_COMPONENT
+!include <C4/C4_Component.puml>
+
+Container_Boundary(api, "API Observatório do Turismo") {
+    Component(service, "ListarLocalidadesServiceImpl", "Service", "Serviço para listar localidades")
+    Component(client, "CadasturClient", "Client", "Cliente HTTP para integração com Cadastur")
+    Component(dtoFiltros, "FiltrosBuscaLocalidadeDTO", "DTO", "Objeto de entrada para filtros de busca")
+    Component(dtoLocalidade, "LocalidadeDTO", "DTO", "Objeto de saída contendo informações de localidades")
+    Component(cache, "localidadesCache", "Cache", "Cache para armazenar resultados de localidades")
+}
+
+Rel(service, client, "Chama", "Solicitação HTTP para buscar localidades")
+Rel(service, cache, "Armazena", "Resultados em cache para otimizar chamadas futuras")
+Rel(service, dtoFiltros, "Recebe")
+Rel(service, dtoLocalidade, "Retorna")
+@enduml
